@@ -92,3 +92,12 @@ async function LoadMoreResults() {
     await fetchAndShowResult(url)
 }
 
+// Detect end of page and load more results
+function detetctEnd() {
+    const { scrlollTop, clientHeight, scrlollHeight} = document.documentElement
+    if(scrlollTop + clientHeight >= scrlollHeight - 20) {
+        LoadMoreResults()
+    }
+}
+
+
