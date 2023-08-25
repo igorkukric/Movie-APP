@@ -1,5 +1,5 @@
-const apiKey = "5d3288680e61bdc34e2244b5dcbbcbb2";
-const imgApi = "https://image.tmdb.org/t/p/w1280";
+const apiKey = '5d3288680e61bdc34e2244b5dcbbcbb2';
+const imgApi = 'https://image.tmdb.org/t/p/w1280';
 const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`;
 
 const form = document.getElementById("search-form");
@@ -14,7 +14,7 @@ async function FetchData(url) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error('Network response was not ok');
     }
     return await response.json();
   } catch (error) {
@@ -25,25 +25,25 @@ async function FetchData(url) {
 // Fetch and show results based on url
 async function fetchAndShowResult(url) {
   const data = await FetchData(url);
-  if (data && data.result) {
+  if (data && data.results) {
     showResults(data.results);
   }
 }
 
 // Create movie card html template
 function createMovieCard(movie) {
-  const { posterPath, originalTitle, releaseDate, overview } = movie;
-  const imagePath = posterPath ? imgApi + posterPath : "./img-01.jpeg";
+  const { poster_path, original_title, release_date, overview } = movie;
+  const imagePath = poster_path ? imgApi + poster_path : "./img-01.jpeg";
   const truncatedTitle =
-    originalTitle.length > 15
-      ? originalTitle.slice(0, 15) + "..."
-      : originalTitle;
-  const formattedDate = releaseDate || "No release date";
+    original_title.length > 15
+      ? original_title.slice(0, 15) + "..."
+      : original_title;
+  const formattedDate = release_date || "No release date";
   const cardTemplate = `
         <div class='column'>
             <div class='card'>
                 <a class='card-media' href='img-01.jpeg'>
-                    <img src='${imagePath}' alt='${originalTitle}'
+                    <img src='${imagePath}' alt='${original_title}'
                     width='100%' />
                 </a>
             <div class='card-content'>
@@ -113,3 +113,17 @@ async function handleSearch(e) {
   }
 }
 
+// Event listeners
+form.addEventListener("submit", handleSearch);
+window.addEventListener("scroll", detetctEnd);
+window.addEventListener("resize", detetctEnd);
+
+// Initialize the page
+async function init() {
+  clearResults();
+  const url = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}&page=${page}`;
+  isSeraching = false;
+  await fetchAndShowResult(url);
+}
+
+init();
