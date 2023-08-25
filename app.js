@@ -64,5 +64,31 @@ function createMovieCard(movie) {
         </div>
     </div>
  `;
- return cardTemplate
+  return cardTemplate;
 }
+
+// Clear result element for search
+function clearResults() {
+  result.innerHTML = "";
+}
+
+// Show results in page
+function showResults(item) {
+  const newContent = item.map(createMovieCard).join("");
+  result.innerHTML = newContent || "<p>No Results found.</p>";
+}
+
+// Load more results
+async function LoadMoreResults() {
+  if (isSeraching) {
+    return;
+  }
+  page++;
+  const searchTerm = query.value;
+  const url = searchTerm
+    ? `${searchUrl}${searchTerm}&page=${page}
+    `
+    : `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}&page=${page}`;
+    await fetchAndShowResult(url)
+}
+
