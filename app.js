@@ -89,15 +89,27 @@ async function LoadMoreResults() {
     ? `${searchUrl}${searchTerm}&page=${page}
     `
     : `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}&page=${page}`;
-    await fetchAndShowResult(url)
+  await fetchAndShowResult(url);
 }
 
 // Detect end of page and load more results
 function detetctEnd() {
-    const { scrlollTop, clientHeight, scrlollHeight} = document.documentElement
-    if(scrlollTop + clientHeight >= scrlollHeight - 20) {
-        LoadMoreResults()
-    }
+  const { scrlollTop, clientHeight, scrlollHeight } = document.documentElement;
+  if (scrlollTop + clientHeight >= scrlollHeight - 20) {
+    LoadMoreResults();
+  }
 }
 
+// Handle search
+async function handleSearch(e) {
+  e.preventDefault();
+  const searchTerm = query.value.trim();
+  if (searchTerm) {
+    isSeraching = true;
+    clearResults();
+    const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
+    await fetchAndShowResult(newUrl);
+    query.value = "";
+  }
+}
 
