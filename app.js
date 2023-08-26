@@ -1,5 +1,5 @@
-const apiKey = '5d3288680e61bdc34e2244b5dcbbcbb2';
-const imgApi = 'https://image.tmdb.org/t/p/w1280';
+const apiKey = "5d3288680e61bdc34e2244b5dcbbcbb2";
+const imgApi = "https://image.tmdb.org/t/p/w1280";
 const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`;
 
 const form = document.getElementById("search-form");
@@ -14,7 +14,7 @@ async function FetchData(url) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
     return await response.json();
   } catch (error) {
@@ -42,14 +42,14 @@ function createMovieCard(movie) {
   const cardTemplate = `
         <div class='column'>
             <div class='card'>
-                <a class='card-media' href='img-01.jpeg'>
+                <a class='card-media' href='./img-01.jpeg'>
                     <img src='${imagePath}' alt='${original_title}'
                     width='100%' />
                 </a>
             <div class='card-content'>
                 <div class='card-header'>
                     <div class='left-content'>
-                        <h3 style='font-weight: 600'>${truncatedTitle}
+                        <h3 style='font-weight: 600'>${truncatedTitle}</h3>
                         <span style='color: #12efec'>${formattedDate}</span>
                     </div>
                     <div class='right-content'>
@@ -57,7 +57,7 @@ function createMovieCard(movie) {
                         class='card-btn'>See Cover</a>
                     </div>
                 </div>
-                <div class'info'>
+                <div class='info'>
                     ${overview || "No overview yet..."}
                 </div>
             </div>
@@ -75,7 +75,7 @@ function clearResults() {
 // Show results in page
 function showResults(item) {
   const newContent = item.map(createMovieCard).join("");
-  result.innerHTML = newContent || "<p>No Results found.</p>";
+  result.innerHTML += newContent || "<p>No Results found.</p>";
 }
 
 // Load more results
@@ -85,17 +85,14 @@ async function LoadMoreResults() {
   }
   page++;
   const searchTerm = query.value;
-  const url = searchTerm
-    ? `${searchUrl}${searchTerm}&page=${page}
-    `
-    : `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}&page=${page}`;
+  const url = searchTerm? `${searchUrl}${searchTerm}&page=${page}` : `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}&page=${page}`;
   await fetchAndShowResult(url);
 }
 
 // Detect end of page and load more results
 function detetctEnd() {
-  const { scrlollTop, clientHeight, scrlollHeight } = document.documentElement;
-  if (scrlollTop + clientHeight >= scrlollHeight - 20) {
+  const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+  if (scrollTop + clientHeight >= scrollHeight - 20) {
     LoadMoreResults();
   }
 }
@@ -127,3 +124,4 @@ async function init() {
 }
 
 init();
+
